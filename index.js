@@ -17,7 +17,7 @@ socketio.on("connection", (userSocket) => {
 
 socketio.on('clientError', (err, socket) => {
   console.error(err);
-  socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+  socketio.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
 
 socketio.on('disconnect', () => {
