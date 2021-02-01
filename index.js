@@ -18,6 +18,9 @@ socketio.on('clientError', (err, socket) => {
   console.error(err);
   socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
+server.on('disconnect', () => {
+  console.log(`disconnected`);
+});
 
 https.listen(process.env.PORT || 3000, function() {
 });
