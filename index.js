@@ -14,11 +14,13 @@ socketio.on("connection", (userSocket) => {
         userSocket.broadcast.emit("receive_message", data)
     })
 });
+
 socketio.on('clientError', (err, socket) => {
   console.error(err);
   socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
-server.on('disconnect', () => {
+
+socketio.on('disconnect', () => {
   console.log(`disconnected`);
 });
 
