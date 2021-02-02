@@ -1,9 +1,9 @@
 const app = require('express')()
-const https = require('https').createServer(app)
-
+const https = require('http').createServer(app)
 
 app.get('/', (req, res) => {
-    res.send("Node Server is running. Yay!!")
+    res.send("Node Server is test running!!");
+    console.log(`Get`);
 });
 
 //Socket Logic
@@ -11,9 +11,8 @@ const socketio = require('socket.io')(https)
 
 socketio.on("connection", (userSocket) => {
     userSocket.on("send_message", (data) => {
-        console.log(userSocket);
+        userSocket.broadcast.emit("receive_message", data);
         console.log(data);
-        userSocket.broadcast.emit("receive_message", data)
     })
 });
 
@@ -21,11 +20,11 @@ socketio.on('clientError', (err, socket) => {
   console.error(err);
   socketio.end('HTTP/1.1 400 Bad Request\r\n\r\n');
 });
-
 socketio.on('disconnect', () => {
   console.log(`disconnected`);
 });
 
-https.listen(process.env.PORT || 3000, function() {
+https.listen( 3000, '192.168.1.3', (req, res) => {
+  console.log(https.address());
 });
 console.log('Listening');
