@@ -1,5 +1,5 @@
 const app = require('express')()
-const https = require('https').createServer(app)
+const https = require("http").createServer(app)
 
 
 app.get('/', (req, res) => {
@@ -26,6 +26,6 @@ socketio.on('disconnect', () => {
   console.log(`disconnected`);
 });
 
-https.listen(process.env.PORT || 3000, function() {
+https.listen( 6000, function() {
 });
 console.log('Listening');
