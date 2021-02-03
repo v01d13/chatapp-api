@@ -11,9 +11,12 @@ app.get('/', (req, res) => {
 socketio.on('connection', (socket) => {
     console.log('user connected')
     socket.on('send_message', (data) => {
+      var obj = { message: data, chatType:'receive' };
+      var myJSON = JSON.stringify(obj);
       console.log(data);
-        socket.broadcast.emit("receive_message", data);
+        socket.broadcast.emit("receive_message", obj);
     });
+
     socket.on('chat', (msg) => {
       console.log('message: ' + msg);
     });
