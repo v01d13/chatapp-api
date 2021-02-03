@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-var https = require('http').Server(app);
+var https = require('https').Server(app);
 var socketio = require('socket.io')(https);
 
 app.get('/', (req, res) => {
