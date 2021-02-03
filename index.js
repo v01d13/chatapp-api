@@ -17,20 +17,16 @@ var Message = mongoose.model('Message', {
     message: String
 });
 //Socket connection on connected
-socketio.on('connection', (socket) => {
-  console.log('user connected');
-  socket.on('send_message', ( data) => {
+socketio.on('connection', async (socket) => {
+  console.log('User connected');
+  await Message.find((err, data) => {
+    if(err)
+      console.error(err);
+    else
     
-    console.log( data);
-    var mongoose_data = new Message({username: data.user, message: data.message});
-    mongoose_data.save( (err) => {
-
-      if(err)
-        console.error(err);
-      else
-        console.log('New database entry.')
-    });
-    socket.broadcast.emit("receive_message", data);
+    var stringdata = JSON.stringify(data);
+    console.log(stringdata);
+      socket.emit("receive_message", stringdata);
   });
 });
 //Socket connection error
@@ -44,9 +40,21 @@ socketio.on('disconnect', (client) => {
   console.log(`User disconnected`);
 });
 //HTTPS server
-https.listen( 8585, "192.168.1.92",(req, res) => {
+https.listen(3000, '192.168.1.92', (req, res) => {
   console.log('Listening: ', https.address());
 });
+socketio.on('send_message', (data) => {
+    console.log(data.user);
+    console.log(data.message);
+    var mongoose_data = new Message({username: data.user, message: data.message});
+    mongoose_data.save( (err) => {
+      if(err)
+        console.error(err);
+      else
+        console.log('New database entry.');
+    });
+    socket.broadcast.emit("receive_message", data);
+  });
 //Mongoose connecting to mlab database
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     if (err)
