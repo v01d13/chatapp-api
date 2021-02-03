@@ -18,10 +18,11 @@ var Message = mongoose.model('Message', {
 });
 //Socket connection on connected
 socketio.on('connection', (socket) => {
-  console.log('user connected');
-  socket.on('send_message', (user, data) => {
-    console.log(user, data);
-    var mongoose_data = new Message({username: user, message: data});
+  console.log('User connected');
+  socket.on('send_message', (data) => {
+    console.log(data.user);
+    console.log(data.message);
+    var mongoose_data = new Message({username: data.user, message: data.message});
     mongoose_data.save( (err) => {
       if(err)
         console.error(err);
