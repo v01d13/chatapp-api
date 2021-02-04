@@ -21,7 +21,7 @@ const Message = mongoose.model('Message', {
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
   try{
-    await Message.find({username: 'Suresh'}, (messages) => {
+    await mongoose.Message.find({username: 'Suresh'}, (messages) => {
       var json_parse = messages.toJSON();
       console.log(json_parse);
       socket.emit(json_parse);
