@@ -18,12 +18,12 @@ const Message = mongoose.model('Message', {
   message: String
 });
 // Socket connection on connected
-socketio.on('connection',  (socket) => {
+socketio.on('connection',  async (socket) => {
   console.log('User connected');
-   Message.find({username: username}, (err, messages) => {
+  await Message.find({username: 'Suresh'}, (err, messages) => {
     var json_parse = JSON.parse(data);
     console.log(json_parse);
-    socketio.emit(json(json_parse));
+    socket.emit(json(json_parse));
     }); 
 });
 
