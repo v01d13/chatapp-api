@@ -21,13 +21,11 @@ const Message = mongoose.model('Message', {
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
   await Message.find({username: 'Suresh'}, (err, data) => {
-    if (err)
-      return console.error(err)
-    else
-      var json_parse = JSON.stringify(data);
-      console.log(json_parse);
-      socket.emit(json(json_parse));
-    }); 
+    var json_parse = JSON.stringify(data);
+    console.log(json_parse);
+    socket.emit(json(json_parse));
+  }).catch(err) 
+      return console.error(err);
 });
 
 // Socket connection error
