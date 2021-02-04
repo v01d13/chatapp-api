@@ -18,9 +18,9 @@ const Message = mongoose.model('Message', {
   message: String
 });
 // Socket connection on connected
-socketio.on('connection', async (socket) => {
+socketio.on('connection', (socket) => {
   console.log('User connected');
-  await Message.find().lean(), (err,data) => {
+  Message.find().lean(), (err,data) => {
     if(err)
       console.error(err);
     else
