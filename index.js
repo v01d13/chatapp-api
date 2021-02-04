@@ -7,7 +7,6 @@ var mongoose = require('mongoose');
 //
 app.get('/', (req, res) => {
   res.send("Node Server is test running!!");
-  console.log(`Get`);
 });
 // Creating a promise, and message model for mongoose
 mongoose.Promise = Promise;
@@ -38,7 +37,7 @@ socketio.on('disconnect', (client) => {
   console.log(`User disconnected`);
 });
 // HTTPS server
-https.listen(process.env.PORT ||3000, 'https://v01d13.xyz', (req, res) => {
+https.listen(process.env.PORT || 3000, (req, res) => {
   console.log('Listening: ', https.address());
 });
 socketio.on('send_message', (data) => {
