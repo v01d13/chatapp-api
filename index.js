@@ -22,10 +22,10 @@ socketio.on('connection',  async (socket) => {
   console.log('User connected');
   try{
     await Message.find({username: 'Suresh'}, (data) => {
-      var json_parse = JSON.stringify(data);
+      var json_parse = JSON.parse(data);
       console.log(typeof(data));
       console.log(typeof(json_parse));
-      console.log(JSON.parse(json_parse));
+      console.log(json_parse);
       socket.emit(json_parse);
     }).lean();
   }
@@ -33,7 +33,6 @@ socketio.on('connection',  async (socket) => {
     return console.error(error);
   }
 });
-
 // Socket connection error
 socketio.on('clientError', (err, socket) => {
   console.error(err);
