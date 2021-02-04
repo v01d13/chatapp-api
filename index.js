@@ -17,10 +17,11 @@ const Message = mongoose.model('Message', {
   username: String,
   message: String
 });
+var Model = monggose.model("Message", message, "Messages");
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
-  await Messages.find({username: "Suresh"}, (err, messages) => {
+  await Message.find({username: "Suresh"}, (err, messages) => {
     if (err)
       return console.error(err);
     else
