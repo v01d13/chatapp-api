@@ -25,7 +25,7 @@ socketio.on('connection',  async (socket) => {
       var json_parse = messages.toJSON();
       console.log(json_parse);
       socket.emit(json_parse);
-    }).lean();
+    }).lean().exec();
   }
   catch (error) {
     return console.error(error);
