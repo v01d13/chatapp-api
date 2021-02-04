@@ -22,8 +22,8 @@ socketio.on('connection',  async (socket) => {
   console.log('User connected');
   try{
     await Message.find({username: 'Suresh'}, (messages) => {
-      var json_parse = JSON.stringify(messages);
-      console.log('Sending JSON');
+      var json_parse = messages.toJSON();
+      console.log(json_parse);
       socket.emit(json_parse);
     }).lean();
   }
