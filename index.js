@@ -20,7 +20,7 @@ const Message = mongoose.model('Message', {
 // Socket connection on connected
 socketio.on('connection',  (socket) => {
   console.log('User connected');
-   Message.find({name: username}, (err, messages) => {
+   Message.find({username: username}, (err, messages) => {
     var json_parse = JSON.parse(data);
     console.log(json_parse);
     socketio.emit(json(json_parse));
