@@ -13,11 +13,9 @@ app.use(enforce.HTTPS());
 // Creating a promise, and message model for mongoose
 mongoose.Promise = Promise;
 const dbUrl = 'mongodb+srv://v01d13:wFYQrplPbOqDf6tG@chat-app-mongo.dqlry.mongodb.net/<dbname>?retryWrites=true&w=majority';
-const Message = mongoose.model('Message', {
-  username: String,
-  message: String
-});
-var Model = mongoose.model("Message", Message, "Messages");
+const schema = new mongoose.Schema({username: String, message: String});
+const Message = mongoose.model('Message', schema);
+var Model = mongoose.model("Message", schema, "Messages");
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
