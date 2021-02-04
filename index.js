@@ -25,7 +25,7 @@ socketio.on('connection', async (socket) => {
       console.error(err);
     else
       var json_parse = JSON.parse(data);
-      socket.emit(json(json_parse));
+      socket.emit('initial_message_load', json(json_parse));
   };
 });
 // Socket connection error
