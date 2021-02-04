@@ -23,9 +23,13 @@ socketio.on('connection',  async (socket) => {
     if (err)
       return console.error(err);
     else
-      var json_parse = JSON.parse(JSON.stringify(messages));
-      console.log(json_parse);
-      socket.emit(json_parse);
+      try {
+        var json_parse = JSON.parse(JSON.stringify(messages));
+        socket.emit(json_parse);
+      }
+      catch (err) {
+        console.error(err);
+      }
     }).lean().exec();
 });
 // Socket connection error
