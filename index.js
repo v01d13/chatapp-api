@@ -24,9 +24,10 @@ socketio.on('connection', async (socket) => {
       console.error(err);
     else
     
-    var stringdata = JSON.stringify(data);
-    console.log(stringdata);
-      socket.emit("receive_message", stringdata);
+    // var stringdata = JSON.stringify(data);
+    console.log(typeof data);
+    // console.log(data);
+      socket.emit("initial_message", data);
   });
 });
 //Socket connection error
