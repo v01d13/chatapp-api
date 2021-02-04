@@ -22,7 +22,7 @@ socketio.on('connection',  async (socket) => {
   console.log('User connected');
   await Message.find({username: 'Suresh'}, (err, data) => {
     if (err)
-      console.error(err)
+      return console.error(err)
     else
       var json_parse = JSON.stringify(data);
       console.log(json_parse);
