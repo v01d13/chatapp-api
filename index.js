@@ -28,7 +28,7 @@ app.get('/messages', (req, res) => {
     else
       var json_parse = JSON.parse(data);
       console.log(json_parse);
-      res.emit('initial_message', json(json_parse));
+      res.send(json(json_parse));
   }
 });
 // Socket connection error
