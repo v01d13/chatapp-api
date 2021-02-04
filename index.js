@@ -24,13 +24,12 @@ socketio.on('connection',  async (socket) => {
     await Message.find({username: 'Suresh'}, (data) => {
       var json_parse = JSON.stringify(data);
       console.log(json_parse);
-      socket.emit(json(json_parse));
+      socket.emit(json_parse);
     })
   }
   catch (error) {
     return console.error(error);
   }
-  
 });
 
 // Socket connection error
