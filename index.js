@@ -20,7 +20,7 @@ const Message = mongoose.model('Message', {
 // Socket connection on connected
 socketio.on('connection',  (socket) => {
   console.log('User connected');
-   Message.find().lean(), (err,data) => {
+   mongoose.Message.find().lean(), (err,data) => {
     console.log('find');
     if(err)
       console.error(err);
