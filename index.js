@@ -21,8 +21,10 @@ const Message = mongoose.model('Message', {
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
   try{
-    await Message.find({username: 'Suresh'}, (data) => {
+    await Message.find().lean({username: 'Suresh'}, (data) => {
       var json_parse = JSON.stringify(data);
+      console.log(typeof(data));
+      console.log(typeof(json_parse));
       console.log(json_parse);
       socket.emit(json_parse);
     })
