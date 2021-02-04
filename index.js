@@ -17,7 +17,7 @@ const Message = mongoose.model('Message', {
   username: String,
   message: String
 });
-var Model = mongoose.model("Message", message, "Messages");
+var Model = mongoose.model("Message", Message, "Messages");
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
