@@ -15,7 +15,7 @@ mongoose.Promise = Promise;
 const dbUrl = 'mongodb+srv://v01d13:wFYQrplPbOqDf6tG@chat-app-mongo.dqlry.mongodb.net/<dbname>?retryWrites=true&w=majority';
 const schema = new mongoose.Schema({username: String, message: String});
 const Message = mongoose.model('Message', schema);
-var Model = mongoose.model("Message", schema, "Messages");
+var Model = mongoose.model("Message", schema);
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
@@ -23,7 +23,7 @@ socketio.on('connection',  async (socket) => {
     if (err)
       return console.error(err);
     else
-      var json_parse = messages.toJSON();
+      var json_parse = JSON.parse(messages);
       console.log(json_parse);
       socket.emit(json_parse);
     }).lean().exec();
