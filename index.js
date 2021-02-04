@@ -25,7 +25,7 @@ socketio.on('connection',  async (socket) => {
       var json_parse = JSON.parse(data);
       console.log(typeof(data));
       console.log(typeof(json_parse));
-      console.log(json_parse);
+      console.log(JSON.stringify(json_parse));
       socket.emit(json_parse);
     }).lean();
   }
