@@ -25,7 +25,7 @@ socketio.on('connection',  async (socket) => {
     else
       try {
         var json_parse = JSON.parse(JSON.stringify(messages));
-        socket.emit(json_parse);
+        socket.emit("initial_message",json_parse);
       }
       catch (err) {
         console.error(err);
