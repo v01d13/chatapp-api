@@ -14,11 +14,11 @@ app.use(enforce.HTTPS());
 // Creating a promise, and message model for mongoose
 mongoose.Promise = Promise;
 const dbUrl = 'mongodb+srv://v01d13:wFYQrplPbOqDf6tG@chat-app-mongo.dqlry.mongodb.net/<dbname>?retryWrites=true&w=majority';
-const schema = new mongoose.Schema({username: String, message: String});
 const Message = new Books();
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
+  //Placeholder for unseen messages
   await Message.find({username: "Suresh"}, (err, messages) => {
     if (err)
       return console.error(err);
@@ -58,15 +58,16 @@ socketio.on('send_message', (data) => {
   });
   socket.broadcast.emit("receive_message", data);
 });
-socketio.on('private_message', (username) => {
-  app.get(username, async (req, res) => {
+// Private message for future//
+socketio.on('private_message', async (socket) => {
+  app.get(username, (req, res) => {
     await Message.find({username: "Suresh"}, (err, messages) => {
       if (err)
         return console.error(err);
       else
         try {
           var json_parse = JSON.stringify(messages);
-          res.send(json_parse);
+          socket.emit(json_parse);
         }
         catch (err) {
         console.error(err);

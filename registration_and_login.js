@@ -5,17 +5,17 @@ mongoose.Promise = Promise;
 const Login = new Login();
 const Registration = new Registration();
 module.exports.login = async (user, passwd) => {
-  await Login.find({username: user}, (err, details) => {
+  await Login.findOne({username: user}, (err, details) => {
     if (err)
-      return console.error(err);
+      return false;
     else
       try {
         var json_parse = JSON.parse(JSON.stringify(details));
         var pw = (json_parse.password).toString;
         if (pw.localeCompare(passwd))
-          return true
+          return true;
         else 
-          return false
+          return false;
       }
       catch (err) {
         return console.error(err);
