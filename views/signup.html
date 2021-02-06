@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section>
+          <form id="signup">
+            <label>Login</label>
+            <input type="text" name="login" />
+            <label>Password</label>
+            <input type="password" name="password" />
+            <button>Sign up</button>
+          </form>
+        </section>
+    
+
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+      <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+          apiKey: "AIzaSyDDs4CnpFxk-pHAE00L3LwdsFmSEvnqYcY",
+          authDomain: "chat-app-878ac.firebaseapp.com",
+          projectId: "chat-app-878ac",
+          storageBucket: "chat-app-878ac.appspot.com",
+          messagingSenderId: "975795236373",
+          appId: "1:975795236373:web:acca800b3308778050681c",
+          measurementId: "G-XW4N25QS7R"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        ///This code will register the user
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.None)
+
+      document.getElementById('signup').addEventListener(
+          'click',function(e){
+            e.preventDefault()
+
+            const login = event.target.login.value
+            const password = event.target.password.value
+
+            firebase. auth().createUserWithEmailAndPassword(login,password).then(({user})=>{
+                return user.getIdToken().then((idToken)=>{
+                    return fetch("/sessionLogin",{
+                        method:'POST',
+                        headers:{
+                            Accept:'application/json',
+                            "Content-Type":"application/json",
+                            "CSRF-Token":Cookies.get("XSRF-TOKEN")
+                        },
+                        body:JSON.stringify({idToken})
+                    })
+                }).then(()=>{
+                    return firebase.auth().signOut()
+                })
+            }).then(()=>{
+                window.location.assign("/profile")
+            })   
+            }
+      )
+    
+      </script>    
+
+      </main>
+    </body>
+</html>
