@@ -1,5 +1,5 @@
 // Importing modules
-import Books from './models/schema.js';
+import Message from './models/schema.js';
 const express = require('express');
 const app = express();
 const https = require('http').Server(app);
@@ -14,7 +14,7 @@ app.use(enforce.HTTPS());
 // Creating a promise, and message model for mongoose
 mongoose.Promise = Promise;
 const dbUrl = 'mongodb+srv://v01d13:wFYQrplPbOqDf6tG@chat-app-mongo.dqlry.mongodb.net/<dbname>?retryWrites=true&w=majority';
-const Message = new Books();
+const Message = new Message();
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
