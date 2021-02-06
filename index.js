@@ -1,4 +1,5 @@
 // Importing modules
+import Books from './models/schema.js';
 const express = require('express');
 const app = express();
 const https = require('http').Server(app);
@@ -14,19 +15,17 @@ app.use(enforce.HTTPS());
 mongoose.Promise = Promise;
 const dbUrl = 'mongodb+srv://v01d13:wFYQrplPbOqDf6tG@chat-app-mongo.dqlry.mongodb.net/<dbname>?retryWrites=true&w=majority';
 const schema = new mongoose.Schema({username: String, message: String});
-const Message = mongoose.model('Message', schema);
-var Model = mongoose.model("Message", schema);
+const Message = new Books();
 // Socket connection on connected
 socketio.on('connection',  async (socket) => {
   console.log('User connected');
-  await Model.find({username: "Suresh"}, (err, messages) => {
+  await Message.find({username: "Suresh"}, (err, messages) => {
     if (err)
       return console.error(err);
     else
       try {
         var json_parse = JSON.stringify(messages);
-        console.log(typeof(json_parse));
-        socket.write("initial_message", json_parse);
+        socket.emit("initial_message", json_parse);
       }
       catch (err) {
         console.error(err);
@@ -58,6 +57,22 @@ socketio.on('send_message', (data) => {
       console.log('New database entry.');
   });
   socket.broadcast.emit("receive_message", data);
+});
+socketio.on('private_message', (username) => {
+  app.get(username, async (req, res) => {
+    await Message.find({username: "Suresh"}, (err, messages) => {
+      if (err)
+        return console.error(err);
+      else
+        try {
+          var json_parse = JSON.stringify(messages);
+          res.send(json_parse);
+        }
+        catch (err) {
+        console.error(err);
+        }
+    }).lean().exec();
+  });
 });
 // Mongoose connecting to mlab database
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {

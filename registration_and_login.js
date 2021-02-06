@@ -1,7 +1,9 @@
+import {Login, Registration} from './models/schema.js';
 const mongoose = require('mongoose');
 mongoose.Promise = Promise;
-const schema = new mongoose.Schema({username: String, password: String});
-const Login = mongoose.model('Login', schema);
+
+const Login = new Login();
+const Registration = new Registration();
 module.exports.login = async (user, passwd) => {
   await Login.find({username: user}, (err, details) => {
     if (err)
@@ -19,6 +21,18 @@ module.exports.login = async (user, passwd) => {
         return console.error(err);
       }
   }).lean().exec();
+};
+module.exports.registration = async() => {
+  await Registration.save(err => {
+    if (err) {
+      console.error(err);
+      return false;
+    }
+    else {
+      console.log('New user added.');
+      return true
+    }
+  });
 };
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
   if (err)
