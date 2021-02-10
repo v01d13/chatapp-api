@@ -22,6 +22,7 @@
     "express-sslify": "^1.2.0",
     "https": "^1.0.0",
     "mongoose": "^5.11.14",
+    "mssql": "^6.3.1",
     "nodemon": "^2.0.7",
     "socket.io": "^2.3.0"
   }
