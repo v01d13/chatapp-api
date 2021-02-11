@@ -1,29 +1,17 @@
-import {Login, Registration} from './models/schema.js';
-const mongoose = require('mongoose');
-mongoose.Promise = Promise;
+const sql = require('mssql');
 
-const Login = new Login();
-const Registration = new Registration();
 module.exports.login = async (user, passwd) => {
-  await Login.findOne({username: user}, (err, details) => {
+  await sql.query(``), (err) =>  {
     if (err)
       return false;
     else
-      try {
-        var json_parse = JSON.parse(JSON.stringify(details));
-        var pw = (json_parse.password).toString;
-        if (pw.localeCompare(passwd))
-          return true;
-        else 
-          return false;
-      }
-      catch (err) {
-        return console.error(err);
-      }
-  }).lean().exec();
-};
+      console.log('User logged in');
+      return true;
+  }
+}
+    
 module.exports.registration = async() => {
-  await Registration.save(err => {
+  await sql.query(``), (err => {
     if (err) {
       console.error(err);
       return false;
@@ -34,9 +22,3 @@ module.exports.registration = async() => {
     }
   });
 };
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
-  if (err)
-    console.log(err);
-  else
-    console.log('Login database connected')
-});

@@ -56,7 +56,6 @@ socketio.on('send_message', async(data) => {
   await sql.query(`insert into message (message,toUser,fromUser) values (${data.message}, ${data.toUser}, ${data.fromUser})`)
   console.log(data.toUser);
   console.log(data.message);
-  
 });
 // Private message for future//
 socketio.on('private_message', async(username) => {
