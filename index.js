@@ -6,32 +6,40 @@ const socketio = require('socket.io')(https);
 const enforce = require('express-sslify');
 const sql = require('mssql');
 const { SSL_OP_NO_QUERY_MTU } = require('constants');
-const config = {
-  user: 'chatadmin',
-  password: 'Suresh111',
-  server: 'mychatappserver.database.windows.net',
-  port: 1433,
-  database: 'ChatApp',
-  connectionTimeout: 3000,
-  parseJSON: true,
-  options: {
-    encrypt: true,
-    enableArithAbort: true
-  },
-  pool: {
-    min: 0,
-    idleTimeoutMillis: 3000
-  }
-};
-//
+const registration_and_login = require('./registration_and_login');
+const md5 = require('md5');
+const User = require('./models/user');
+const {pool} = require('./dbOperations');
+
+pool()
+app.use(express.urlencoded({
+  extended: true
+}));
+app.use(express.json())
 app.get('/', (req, res) => {
   res.send("Https test!!");
 });
-const pool = new sql.ConnectionPool(config);
-const poolConnect = pool.connect((err) => {
-  if (err) return console.error(err);
-  else return console.log('Database connected');
+
+app.post('/signup',async (req,res)=>{
+  // try{
+  const userName =req.body.userName;
+  const email=req.body.email
+  const dob= req.body.dob
+  const gender = req.body.gender
+  const userPassword =  req.body.userPassword
+  if(!userName || !email || !dob || !gender || !userPassword) return res.send({message:"Fill up all the fields"})
+  const password = md5(userPassword);
+  let newUser = new User(userName,email,dob,gender,password);
+  await  registration_and_login.registration(newUser);
+
+  // }catch(error){
+  //   res.send({error: error})
+  // }
+  
+
 });
+
+
 app.use(enforce.HTTPS());
 
 // Socket connection on connected
@@ -49,7 +57,7 @@ socketio.on('disconnect', (client) => {
   console.log(`User disconnected`);
 });
 // HTTPS server
-https.listen(process.env.PORT || 3000, (req, res) => {
+https.listen(process.env.PORT || 5000, (req, res) => {
   console.log('Listening: ', https.address());
 });
 socketio.on('send_message', async(data) => {
