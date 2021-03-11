@@ -120,6 +120,8 @@ async function authenticateToken(req, res, next) {
         const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         req.user = decoded;
         next();
+    }finally{
+
     }
 }
 

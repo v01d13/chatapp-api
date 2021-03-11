@@ -1,6 +1,6 @@
 const sql = require("mssql");
 const md5 = require("md5");
-const dbOperations = require("./dbOperations");
+const dbOperations = require("./db_operations");
 
 module.exports.login = async (userName, password) => {
   try{
